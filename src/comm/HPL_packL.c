@@ -1,6 +1,6 @@
 /* 
  * -- High Performance Computing Linpack Benchmark (HPL)                
- *    HPL - 2.2 - February 24, 2016                          
+ *    HPL - 2.3 - December 2, 2018                          
  *    Antoine P. Petitet                                                
  *    University of Tennessee, Knoxville                                
  *    Innovative Computing Laboratory                                 
@@ -169,7 +169,7 @@ int HPL_packL
          type[nbufs] = MPI_DOUBLE;
          blen[nbufs] = m1;
          if( ierr == MPI_SUCCESS )
-            ierr =   MPI_Address( bufs[nbufs], &disp[nbufs] );
+            ierr =   MPI_Get_address( bufs[nbufs], &disp[nbufs] );
  
          nbufs++; len -= m1; j1++; ibuf += m1;
 /*
@@ -183,7 +183,7 @@ int HPL_packL
             type[nbufs] = MPI_DOUBLE;
             blen[nbufs] = m1;
             if( ierr == MPI_SUCCESS )
-               ierr =   MPI_Address( bufs[nbufs], &disp[nbufs] );
+               ierr =   MPI_Get_address( bufs[nbufs], &disp[nbufs] );
  
             nbufs++; len -= m1; j1++; ibuf += m1;
          }
@@ -197,7 +197,7 @@ int HPL_packL
          type[nbufs] = MPI_DOUBLE;
          blen[nbufs] = len;
          if( ierr == MPI_SUCCESS )
-            ierr =   MPI_Address( bufs[nbufs], &disp[nbufs] );
+            ierr =   MPI_Get_address( bufs[nbufs], &disp[nbufs] );
          nbufs++;
       }
  
@@ -208,7 +208,7 @@ int HPL_packL
  * construct the struct type 
  */
       if( ierr == MPI_SUCCESS )
-         ierr =   MPI_Type_struct( nbufs, blen, disp, type,
+         ierr =   MPI_Type_create_struct( nbufs, blen, disp, type,
                                    &PANEL->dtypes[IBUF] );
 /*
  * release temporaries
